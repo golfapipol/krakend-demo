@@ -1,0 +1,24 @@
+version: "3"
+services:
+  api-gateway:
+    image: devopsfaith/krakend:0.9.0
+    volumes: 
+    # - ./krakend:/etc/krakend
+    - ./jsonplaceholder:/etc/krakend
+    ports:
+    - 8080:8080
+    depends_on: 
+    - foo-service
+    - bar-service
+  foo-service:
+    image: foobar-service
+    build:
+      context: ./services/foobar
+    ports:
+    - 3031:3000
+  bar-service:
+    image: foobar-service
+    ports:
+    - 3032:3000
+    
+

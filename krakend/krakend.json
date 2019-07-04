@@ -1,0 +1,119 @@
+{
+  "version": 2,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "host": [
+    "http://foo-service:3000",
+    "http://bar-service:3000",
+    "https://api.github.com",
+    "https://qiita.com"
+  ],
+  "extra_config": {},
+  "endpoints": [
+    {
+      "endpoint": "/api/foo",
+      "backend": [
+        {
+          "host": [
+            "http://foo-service:3000"
+          ],
+          "url_pattern": "/foo",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json"
+        }
+      ],
+      "extra_config": {},
+      "concurrent_calls": 1
+    },
+    {
+      "endpoint": "/api/bar",
+      "backend": [
+        {
+          "host": [
+            "http://bar-service:3000"
+          ],
+          "url_pattern": "/bar"
+        }
+      ],
+      "extra_config": {}
+    },
+    {
+      "endpoint": "/api/foobar",
+      "backend": [
+        {
+          "host": [
+            "http://foo-service:3000"
+          ],
+          "url_pattern": "/foo",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json",
+          "blacklist": [
+            "foofoo"
+          ]
+        },
+        {
+          "host": [
+            "http://bar-service:3000"
+          ],
+          "url_pattern": "/bar",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json",
+          "blacklist": [
+            "beer"
+          ]
+        }
+      ],
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1
+    },
+    {
+      "endpoint": "/users/{id}",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "client_max_rate": 0,
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/api/v2/users/{id}",
+          "encoding": "json",
+          "host": [
+            "https://qiita.com"
+          ],
+          "group": "qiita"
+        },
+        {
+          "url_pattern": "/users/{id}",
+          "encoding": "json",
+          "host": [
+            "https://api.github.com"
+          ],
+          "group": "github"
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/v2/foo",
+      "method": "GET",
+      "concurrent_calls": 1,
+      "client_max_rate": 0,
+      "querystring_params": [],
+      "backend": [
+        {
+          "url_pattern": "/foo",
+          "encoding": "json",
+          "host": [
+            "http://foo-service:3000"
+          ],
+          "mapping": {
+            "foofoo": "foo^2"
+          }
+        }
+      ]
+    }
+  ],
+  "output_encoding": "json"
+}

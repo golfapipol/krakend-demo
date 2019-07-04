@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "host": [
+    "http://jsonplaceholder.typicode.com"
+  ],
+  "extra_config": {},
+  "endpoints": [
+    {
+      "endpoint": "/posts",
+      "backend": [
+        {
+          "host": [
+            "http://jsonplaceholder.typicode.com"
+          ],
+          "url_pattern": "/posts",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json",
+          "target": "",
+          "is_collection": true,
+          "mapping": {
+            "collection": "posts"
+          }
+        }
+      ],
+      "extra_config": {},
+      "concurrent_calls": 1,
+      "output_encoding": "json",
+      "method": "GET"
+    },
+    {
+      "endpoint": "/posts/{id}",
+      "backend": [
+        {
+          "host": [
+            "http://jsonplaceholder.typicode.com"
+          ],
+          "url_pattern": "/posts/{id}",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json"
+        },
+        {
+          "host": [
+            "http://jsonplaceholder.typicode.com"
+          ],
+          "url_pattern": "/comments?postId={id}",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json",
+          "target": "",
+          "is_collection": true,
+          "mapping": {
+            "collection": "comments"
+          }
+        }
+      ],
+      "extra_config": {},
+      "concurrent_calls": 1,
+      "output_encoding": "json",
+      "method": "GET"
+    }
+  ],
+  "output_encoding": "json"
+}
